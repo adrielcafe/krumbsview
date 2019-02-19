@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <cafe.adriel.krumbsview.view.KrumbsView
+        android:id="@+id/vBreadcrumbs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="50dp"
+        android:paddingBottom="50dp"
+        android:background="@color/colorPrimary"
+        app:krumbsFirstItem="Home"
+        app:krumbsBoldText="true"
+        app:krumbsCurrentItemTextColor="@android:color/white"
+        app:krumbsPreviousItemTextColor="@color/transparent_white"
+        app:krumbsSeparatorTintColor="@color/transparent_white"
+        app:krumbsSeparatorIcon="@drawable/ic_keyboard_arrow_right"
+        app:krumbsAnimationType="slideLeftRight"
+        app:krumbsAnimationDuration="shortDuration"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/vActionsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/vActionsLayout"
+        android:layout_centerHorizontal="true"
+        android:text="Actions"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/vActionsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/vAnimationsTitle"
+        android:layout_gravity="center"
+        android:layout_marginBottom="50dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        tools:context=".MainActivity">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/vAddItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            android:text="addItem()"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/vRemoveLastItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:textAllCaps="false"
+            android:text="removeLastItem()"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/vGoToFirstItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            android:text="goToFirstItem()"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/vAnimationsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/vAnimationsLayout"
+        android:layout_centerHorizontal="true"
+        android:text="Animations"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/vAnimationsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="center"
+        android:layout_marginBottom="50dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        tools:context=".MainActivity">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/vAnimationSlide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            android:text="slideLeftRight"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/vAnimationFade"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:textAllCaps="false"
+            android:text="fadeInOut"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/vAnimationGrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            android:text="growShrink"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</RelativeLayout>

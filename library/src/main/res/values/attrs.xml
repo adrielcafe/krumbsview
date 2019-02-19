@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="KrumbsView">
+        <attr name="krumbsFirstItem" format="string"/>
+        <attr name="krumbsBoldText" format="boolean"/>
+        <attr name="krumbsCurrentItemTextColor" format="color"/>
+        <attr name="krumbsPreviousItemTextColor" format="color"/>
+        <attr name="krumbsSeparatorTintColor" format="color"/>
+        <attr name="krumbsSeparatorIcon" format="reference"/>
+        <attr name="krumbsAnimationType" format="enum">
+            <enum name="none" value="0"/>
+            <enum name="slideLeftRight" value="1"/>
+            <enum name="fadeInOut" value="2"/>
+            <enum name="growShrink" value="3"/>
+        </attr>
+        <attr name="krumbsAnimationDuration" format="enum">
+            <enum name="shortDuration" value="0"/>
+            <enum name="longDuration" value="1"/>
+        </attr>
+    </declare-styleable>
+
+</resources>

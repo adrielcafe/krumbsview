@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="?actionBarSize"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingLeft="0dp"
+    android:paddingStart="0dp"
+    android:paddingRight="50dp"
+    android:paddingEnd="50dp"
+    android:animateLayoutChanges="true">
+
+    <TextSwitcher
+        android:id="@+id/vBreadcrumbPreviousItemSwitcher"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/vBreadcrumbSeparator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:visibility="gone"
+        app:tint="@color/transparent_white"
+        app:srcCompat="@drawable/ic_keyboard_arrow_right"/>
+
+    <TextSwitcher
+        android:id="@+id/vBreadcrumbCurrentItemSwitcher"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"/>
+
+</androidx.appcompat.widget.LinearLayoutCompat>
