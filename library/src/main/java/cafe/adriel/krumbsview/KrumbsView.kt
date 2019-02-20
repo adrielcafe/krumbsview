@@ -88,7 +88,7 @@ open class KrumbsView(context: Context, attrs: AttributeSet? = null) : LinearLay
             if(!startItem.isNullOrBlank()){
                 addItem(Krumb(startItem))
             }
-            setBoltText(boldText)
+            setBoldText(boldText)
             setCurrentItemTextColor(currentItemTextColor)
             setPreviousItemTextColor(previousItemTextColor)
             setSeparatorIcon(separatorIconId, separatorTintColor)
@@ -159,7 +159,7 @@ open class KrumbsView(context: Context, attrs: AttributeSet? = null) : LinearLay
         }
     }
 
-    fun setBoltText(bold: Boolean){
+    fun setBoldText(bold: Boolean){
         val style = if(bold) Typeface.BOLD else Typeface.NORMAL
         vBreadcrumbCurrentItemSwitcher.forEach {
             if(it is AppCompatTextView) {
