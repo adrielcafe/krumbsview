@@ -2,6 +2,7 @@ package cafe.adriel.krumbsview.demo
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import cafe.adriel.krumbsview.model.Krumb
 import cafe.adriel.krumbsview.model.KrumbsAnimationType
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -17,14 +18,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        vBreadcrumbs.setOnPreviousItemClickListener { title, payload ->
+        vBreadcrumbs.setOnPreviousItemClickListener {
             updateState()
         }
 
         vAddItem.setOnClickListener {
             if(vBreadcrumbs.size <= dummyItems.size) {
                 val nextItem = dummyItems[vBreadcrumbs.size - 1]
-                vBreadcrumbs.addItem(nextItem)
+                vBreadcrumbs.addItem(Krumb(nextItem))
             }
             updateState()
         }
@@ -37,9 +38,15 @@ class MainActivity : AppCompatActivity() {
             updateState()
         }
 
-        vAnimationSlide.setOnClickListener { vBreadcrumbs.setAnimationType(KrumbsAnimationType.SLIDE_LEFT_RIGHT) }
-        vAnimationFade.setOnClickListener { vBreadcrumbs.setAnimationType(KrumbsAnimationType.FADE_IN_OUT) }
-        vAnimationGrow.setOnClickListener { vBreadcrumbs.setAnimationType(KrumbsAnimationType.GROW_SHRINK) }
+        vAnimationSlide.setOnClickListener {
+            vBreadcrumbs.setAnimationType(KrumbsAnimationType.SLIDE_LEFT_RIGHT)
+        }
+        vAnimationFade.setOnClickListener {
+            vBreadcrumbs.setAnimationType(KrumbsAnimationType.FADE_IN_OUT)
+        }
+        vAnimationGrow.setOnClickListener {
+            vBreadcrumbs.setAnimationType(KrumbsAnimationType.GROW_SHRINK)
+        }
     }
 
     override fun onResume() {
@@ -59,4 +66,5 @@ class MainActivity : AppCompatActivity() {
             vGoToFirstItem.isEnabled = false
         }
     }
+
 }

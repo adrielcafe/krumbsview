@@ -13,17 +13,22 @@ import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.content.ContextCompat
-import cafe.adriel.krumbsview.*
+import cafe.adriel.krumbsview.R
 import cafe.adriel.krumbsview.listener.OnSwipeRightListener
+import cafe.adriel.krumbsview.model.Krumb
 import cafe.adriel.krumbsview.model.KrumbsAnimationDuration
 import cafe.adriel.krumbsview.model.KrumbsAnimationType
+import cafe.adriel.krumbsview.util.color
+import cafe.adriel.krumbsview.util.drawable
+import cafe.adriel.krumbsview.util.forEach
+import cafe.adriel.krumbsview.util.tintDrawable
 import kotlinx.android.synthetic.main.view_krumbs.view.*
 import java.util.*
 
-class KrumbsView(context: Context, attrs: AttributeSet? = null) : LinearLayoutCompat(context, attrs) {
+open class KrumbsView(context: Context, attrs: AttributeSet? = null) : LinearLayoutCompat(context, attrs) {
 
-    private val items = Stack<Pair<String, Any?>>()
-    private var listener: ((title: String, payload: Any?) -> Unit)? = null
+    protected val items = ArrayDeque<Krumb>()
+    protected var listener: (() -> Unit)? = null
 
     val size: Int
         get() = items.size
@@ -33,9 +38,18 @@ class KrumbsView(context: Context, attrs: AttributeSet? = null) : LinearLayoutCo
         val firstItem = styleAttrs.getString(R.styleable.KrumbsView_krumbsFirstItem)
         val boldText = styleAttrs.getBoolean(R.styleable.KrumbsView_krumbsBoldText, true)
         val currentItemTextColor = styleAttrs.getColor(R.styleable.KrumbsView_krumbsCurrentItemTextColor, Color.WHITE)
-        val previousItemTextColor = styleAttrs.getColor(R.styleable.KrumbsView_krumbsPreviousItemTextColor, color(R.color.transparent_white))
-        val separatorTintColor = styleAttrs.getColor(R.styleable.KrumbsView_krumbsSeparatorTintColor, color(R.color.transparent_white))
-        val separatorIconId = styleAttrs.getResourceId(R.styleable.KrumbsView_krumbsSeparatorIcon, R.drawable.ic_keyboard_arrow_right)
+        val previousItemTextColor = styleAttrs.getColor(
+            R.styleable.KrumbsView_krumbsPreviousItemTextColor, color(
+                R.color.transparent_white
+            ))
+        val separatorTintColor = styleAttrs.getColor(
+            R.styleable.KrumbsView_krumbsSeparatorTintColor, color(
+                R.color.transparent_white
+            ))
+        val separatorIconId = styleAttrs.getResourceId(
+            R.styleable.KrumbsView_krumbsSeparatorIcon,
+            R.drawable.ic_keyboard_arrow_right
+        )
         val animationType = when(styleAttrs.getInt(R.styleable.KrumbsView_krumbsAnimationType, 1)){
             1 -> KrumbsAnimationType.SLIDE_LEFT_RIGHT
             2 -> KrumbsAnimationType.FADE_IN_OUT
@@ -58,7 +72,12 @@ class KrumbsView(context: Context, attrs: AttributeSet? = null) : LinearLayoutCo
             })
 
             vBreadcrumbCurrentItemSwitcher.setFactory {
-                NonFocusableTextView(ContextThemeWrapper(context, R.style.KrumbsStyle_CurrentItem))
+                NonFocusableTextView(
+                    ContextThemeWrapper(
+                        context,
+                        R.style.KrumbsStyle_CurrentItem
+                    )
+                )
             }
             vBreadcrumbPreviousItemSwitcher.setFactory {
                 AppCompatTextView(ContextThemeWrapper(context, R.style.KrumbsStyle_PreviousItem)).apply {
@@ -67,7 +86,7 @@ class KrumbsView(context: Context, attrs: AttributeSet? = null) : LinearLayoutCo
             }
 
             if(!firstItem.isNullOrBlank()){
-                addItem(firstItem)
+                addItem(Krumb(firstItem))
             }
             setBoltText(boldText)
             setCurrentItemTextColor(currentItemTextColor)
@@ -78,19 +97,48 @@ class KrumbsView(context: Context, attrs: AttributeSet? = null) : LinearLayoutCo
         }
     }
 
-    private fun onPreviousItemClicked(){
+    protected fun onPreviousItemClicked(){
         removeLastItem()
-
-        val (title, payload) = items.peek()
-        listener?.invoke(title, payload)
+        listener?.invoke()
     }
 
-    fun setOnPreviousItemClickListener(listener: (title: String, payload: Any?) -> Unit) {
+    protected fun updateState(){
+        if(items.isEmpty()) {
+            vBreadcrumbCurrentItemSwitcher.setCurrentText("")
+
+            vBreadcrumbPreviousItemSwitcher.setCurrentText("")
+            vBreadcrumbPreviousItemSwitcher.visibility = View.GONE
+
+            vBreadcrumbSeparator.visibility = View.GONE
+        } else {
+            val currentItem = items.peek()
+            if (items.size > 1) {
+                vBreadcrumbCurrentItemSwitcher.setText(currentItem?.title)
+
+                val previousItem = items.elementAt(1)
+                vBreadcrumbPreviousItemSwitcher.setText(previousItem.title.takeLast(3))
+                vBreadcrumbPreviousItemSwitcher.visibility = View.VISIBLE
+
+                vBreadcrumbSeparator.visibility = View.VISIBLE
+            } else {
+                vBreadcrumbCurrentItemSwitcher.setCurrentText(currentItem?.title)
+
+                vBreadcrumbPreviousItemSwitcher.setCurrentText("")
+                vBreadcrumbPreviousItemSwitcher.visibility = View.GONE
+
+                vBreadcrumbSeparator.visibility = View.GONE
+            }
+        }
+    }
+
+    fun setOnPreviousItemClickListener(listener: () -> Unit) {
         this.listener = listener
     }
 
-    fun addItem(title: String, payload: Any? = null) {
-        items.push(Pair(title.trim(), payload))
+    fun getCurrentItem(): Krumb? = items.peek()
+
+    fun addItem(item: Krumb) {
+        items.push(item)
         updateState()
     }
 
@@ -190,35 +238,6 @@ class KrumbsView(context: Context, attrs: AttributeSet? = null) : LinearLayoutCo
         with(vBreadcrumbPreviousItemSwitcher){
             inAnimation?.duration = duration.duration
             outAnimation?.duration = duration.duration
-        }
-    }
-
-    private fun updateState(){
-        if(items.empty()) {
-            vBreadcrumbCurrentItemSwitcher.setCurrentText("")
-
-            vBreadcrumbPreviousItemSwitcher.setCurrentText("")
-            vBreadcrumbPreviousItemSwitcher.visibility = View.GONE
-
-            vBreadcrumbSeparator.visibility = View.GONE
-        } else {
-            val currentItem = items.peek()
-            if (items.size > 1) {
-                vBreadcrumbCurrentItemSwitcher.setText(currentItem.first)
-
-                val previousItem = items[items.lastIndex - 1]
-                vBreadcrumbPreviousItemSwitcher.setText(previousItem.first.takeLast(3))
-                vBreadcrumbPreviousItemSwitcher.visibility = View.VISIBLE
-
-                vBreadcrumbSeparator.visibility = View.VISIBLE
-            } else {
-                vBreadcrumbCurrentItemSwitcher.setCurrentText(currentItem.first)
-
-                vBreadcrumbPreviousItemSwitcher.setCurrentText("")
-                vBreadcrumbPreviousItemSwitcher.visibility = View.GONE
-
-                vBreadcrumbSeparator.visibility = View.GONE
-            }
         }
     }
 
