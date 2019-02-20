@@ -35,7 +35,7 @@ open class KrumbsView(context: Context, attrs: AttributeSet? = null) : LinearLay
 
     init {
         val styleAttrs = context.theme.obtainStyledAttributes(attrs, R.styleable.KrumbsView, 0, 0)
-        val firstItem = styleAttrs.getString(R.styleable.KrumbsView_krumbsFirstItem)
+        val startItem = styleAttrs.getString(R.styleable.KrumbsView_krumbsStartItem)
         val boldText = styleAttrs.getBoolean(R.styleable.KrumbsView_krumbsBoldText, true)
         val currentItemTextColor = styleAttrs.getColor(R.styleable.KrumbsView_krumbsCurrentItemTextColor, Color.WHITE)
         val previousItemTextColor = styleAttrs.getColor(
@@ -85,8 +85,8 @@ open class KrumbsView(context: Context, attrs: AttributeSet? = null) : LinearLay
                 }
             }
 
-            if(!firstItem.isNullOrBlank()){
-                addItem(Krumb(firstItem))
+            if(!startItem.isNullOrBlank()){
+                addItem(Krumb(startItem))
             }
             setBoltText(boldText)
             setCurrentItemTextColor(currentItemTextColor)

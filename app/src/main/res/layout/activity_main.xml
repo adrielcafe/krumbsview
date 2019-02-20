@@ -14,7 +14,7 @@
         android:paddingTop="50dp"
         android:paddingBottom="50dp"
         android:background="@color/colorPrimary"
-        app:krumbsFirstItem="Home"
+        app:krumbsStartItem="Home"
         app:krumbsBoldText="true"
         app:krumbsCurrentItemTextColor="@android:color/white"
         app:krumbsPreviousItemTextColor="@color/transparent_white"

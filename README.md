@@ -31,7 +31,7 @@ Next, add the dependency to your app modules:
 
 ```gradle
 dependencies {
-    compile 'moe.feng:BreadcrumbsView:latest-version'
+    compile 'com.github.adrielcafe:krumbsview:$latestVersion'
 }
 ```
 
@@ -42,7 +42,7 @@ dependencies {
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/colorPrimary"
-    app:krumbsFirstItem="[string]"
+    app:krumbsStartItem="[string]"
     app:krumbsBoldText="[true|false]"
     app:krumbsCurrentItemTextColor="[color]"
     app:krumbsPreviousItemTextColor="[color]"
@@ -82,7 +82,7 @@ data class MyKrumb(val id: Int,
                    val folderName: String, 
                    val createdAt: Date) : Krumb(folderName)
 
-with(krumbView){
+with(krumbsView){
     addItem(MyKrumb(123, "Folder XYZ", now))
 
     val myKrumb = getCurrentItem() as MyKrumb
