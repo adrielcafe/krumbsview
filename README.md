@@ -1,7 +1,11 @@
+[![](https://jitpack.io/v/adrielcafe/KrumbsView.svg)](https://jitpack.io/#adrielcafe/KrumbsView)
+
 # KrumbsView
 The ultimate breadcrumbs view for Android!
 
 Inspired by [JotterPad](https://play.google.com/store/apps/details?id=com.jotterpad.x)'s breadcrumbs.
+
+![demo](demo.gif)
 
 Features:
 
