@@ -59,7 +59,6 @@ dependencies {
 ### Kotlin/Java
 ```kotlin
 with(krumbsView){
-    // Interact with the lib
     size
     getCurrentItem()
     addItem(Krumb("Lorem Ipsum"))
@@ -68,7 +67,6 @@ with(krumbsView){
     goToFirstItem()
     setOnPreviousItemClickListener { /* ... */ }
     
-    // Style it!
     // All XML options are available
     setBoltText(true)
     setCurrentItemTextColor(Color.WHITE)
