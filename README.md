@@ -5,7 +5,7 @@ The ultimate breadcrumbs view for Android!
 
 Inspired by [JotterPad](https://play.google.com/store/apps/details?id=com.jotterpad.x)'s breadcrumbs.
 
-![demo](demo.gif)
+<img src="demo.gif" width="400px"/>
 
 Features:
 
