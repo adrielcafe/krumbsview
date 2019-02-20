@@ -70,7 +70,7 @@ with(krumbsView){
     setOnPreviousItemClickListener { /* ... */ }
     
     // All XML options are available
-    setBoltText(true)
+    setBoldText(true)
     setCurrentItemTextColor(Color.WHITE)
     setPreviousItemTextColor(color(R.color.transparent_white))
     setSeparatorTintColor(color(R.color.transparent_white))
