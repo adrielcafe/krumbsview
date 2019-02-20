@@ -7,38 +7,55 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <cafe.adriel.krumbsview.view.KrumbsView
-        android:id="@+id/vBreadcrumbs"
+    <cafe.adriel.krumbsview.KrumbsView
+        android:id="@+id/vDefaultBreadcrumbs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="50dp"
         android:paddingBottom="50dp"
-        android:background="@color/colorPrimary"
-        app:krumbsStartItem="Home"
-        app:krumbsBoldText="true"
-        app:krumbsCurrentItemTextColor="@android:color/white"
-        app:krumbsPreviousItemTextColor="@color/transparent_white"
-        app:krumbsSeparatorTintColor="@color/transparent_white"
-        app:krumbsSeparatorIcon="@drawable/ic_keyboard_arrow_right"
-        app:krumbsAnimationType="slideLeftRight"
-        app:krumbsAnimationDuration="shortDuration"/>
+        android:background="@color/colorAccent"
+        app:krumbsStartItem="Home"/>
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/vActionsTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@id/vActionsLayout"
-        android:layout_centerHorizontal="true"
-        android:text="Actions"
-        android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
+        android:layout_alignTop="@id/vDefaultBreadcrumbs"
+        android:padding="5dp"
+        android:text="Default"
+        android:textColor="@android:color/white"/>
+
+    <cafe.adriel.krumbsview.KrumbsView
+        android:id="@+id/vCustomBreadcrumbs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/vDefaultBreadcrumbs"
+        android:paddingTop="50dp"
+        android:paddingBottom="50dp"
+        android:background="@color/colorPrimary"
+        app:krumbsStartItem="Home"
+        app:krumbsBoldText="false"
+        app:krumbsCurrentItemTextColor="@color/colorAccent"
+        app:krumbsPreviousItemTextColor="@color/colorPrimaryDark"
+        app:krumbsSeparatorTintColor="@color/colorPrimaryDark"
+        app:krumbsSeparatorIcon="@drawable/ic_play_arrow"
+        app:krumbsAnimationType="growShrink"
+        app:krumbsAnimationDuration="longDuration"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/vCustomBreadcrumbs"
+        android:padding="5dp"
+        android:text="Custom"
+        android:textColor="@android:color/white"/>
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/vActionsLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/vAnimationsTitle"
         android:layout_gravity="center"
         android:layout_marginBottom="50dp"
+        android:layout_alignParentBottom="true"
         android:gravity="center"
         android:orientation="horizontal"
         tools:context=".MainActivity">
@@ -65,51 +82,6 @@
             android:layout_height="wrap_content"
             android:textAllCaps="false"
             android:text="goToFirstItem()"/>
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/vAnimationsTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/vAnimationsLayout"
-        android:layout_centerHorizontal="true"
-        android:text="Animations"
-        android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
-
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/vAnimationsLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="center"
-        android:layout_marginBottom="50dp"
-        android:gravity="center"
-        android:orientation="horizontal"
-        tools:context=".MainActivity">
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/vAnimationSlide"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAllCaps="false"
-            android:text="slideLeftRight"/>
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/vAnimationFade"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:textAllCaps="false"
-            android:text="fadeInOut"/>
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/vAnimationGrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAllCaps="false"
-            android:text="growShrink"/>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

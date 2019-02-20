@@ -1,4 +1,4 @@
-package cafe.adriel.krumbsview.view
+package cafe.adriel.krumbsview
 
 import android.content.Context
 import android.graphics.Color
@@ -13,7 +13,6 @@ import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.content.ContextCompat
-import cafe.adriel.krumbsview.R
 import cafe.adriel.krumbsview.listener.OnSwipeRightListener
 import cafe.adriel.krumbsview.model.Krumb
 import cafe.adriel.krumbsview.model.KrumbsAnimationDuration
@@ -22,6 +21,7 @@ import cafe.adriel.krumbsview.util.color
 import cafe.adriel.krumbsview.util.drawable
 import cafe.adriel.krumbsview.util.forEach
 import cafe.adriel.krumbsview.util.tintDrawable
+import cafe.adriel.krumbsview.view.NonFocusableTextView
 import kotlinx.android.synthetic.main.view_krumbs.view.*
 import java.util.*
 

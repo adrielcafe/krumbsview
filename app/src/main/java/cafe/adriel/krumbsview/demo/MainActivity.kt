@@ -3,7 +3,6 @@ package cafe.adriel.krumbsview.demo
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import cafe.adriel.krumbsview.model.Krumb
-import cafe.adriel.krumbsview.model.KrumbsAnimationType
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -18,35 +17,34 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        vBreadcrumbs.setOnPreviousItemClickListener {
+        vDefaultBreadcrumbs.setOnPreviousItemClickListener {
+            vCustomBreadcrumbs.removeLastItem()
+            updateState()
+        }
+        vCustomBreadcrumbs.setOnPreviousItemClickListener {
+            vDefaultBreadcrumbs.removeLastItem()
             updateState()
         }
 
         vAddItem.setOnClickListener {
-            if(vBreadcrumbs.size <= dummyItems.size) {
-                val nextItem = dummyItems[vBreadcrumbs.size - 1]
-                vBreadcrumbs.addItem(Krumb(nextItem))
+            if(vDefaultBreadcrumbs.size <= dummyItems.size) {
+                val nextItem = dummyItems[vDefaultBreadcrumbs.size - 1]
+                vDefaultBreadcrumbs.addItem(Krumb(nextItem))
+                vCustomBreadcrumbs.addItem(Krumb(nextItem))
             }
             updateState()
         }
         vRemoveLastItem.setOnClickListener {
-            vBreadcrumbs.removeLastItem()
+            vDefaultBreadcrumbs.removeLastItem()
+            vCustomBreadcrumbs.removeLastItem()
             updateState()
         }
         vGoToFirstItem.setOnClickListener {
-            vBreadcrumbs.goToFirstItem()
+            vDefaultBreadcrumbs.goToFirstItem()
+            vCustomBreadcrumbs.goToFirstItem()
             updateState()
         }
 
-        vAnimationSlide.setOnClickListener {
-            vBreadcrumbs.setAnimationType(KrumbsAnimationType.SLIDE_LEFT_RIGHT)
-        }
-        vAnimationFade.setOnClickListener {
-            vBreadcrumbs.setAnimationType(KrumbsAnimationType.FADE_IN_OUT)
-        }
-        vAnimationGrow.setOnClickListener {
-            vBreadcrumbs.setAnimationType(KrumbsAnimationType.GROW_SHRINK)
-        }
     }
 
     override fun onResume() {
@@ -59,9 +57,9 @@ class MainActivity : AppCompatActivity() {
         vRemoveLastItem.isEnabled = true
         vGoToFirstItem.isEnabled = true
 
-        if(vBreadcrumbs.size > dummyItems.size){
+        if(vDefaultBreadcrumbs.size > dummyItems.size){
             vAddItem.isEnabled = false
-        } else if(vBreadcrumbs.size == 1){
+        } else if(vDefaultBreadcrumbs.size == 1){
             vRemoveLastItem.isEnabled = false
             vGoToFirstItem.isEnabled = false
         }
