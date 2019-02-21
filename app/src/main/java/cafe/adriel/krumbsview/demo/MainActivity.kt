@@ -44,7 +44,6 @@ class MainActivity : AppCompatActivity() {
             vCustomBreadcrumbs.goToFirstItem()
             updateState()
         }
-
     }
 
     override fun onResume() {

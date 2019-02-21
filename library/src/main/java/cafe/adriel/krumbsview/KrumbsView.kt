@@ -67,7 +67,9 @@ open class KrumbsView(context: Context, attrs: AttributeSet? = null) : LinearLay
         view?.apply {
             setOnTouchListener(object : OnSwipeRightListener(context){
                 override fun onSwipeRight() {
-                    onPreviousItemClicked()
+                    if(vBreadcrumbPreviousItemSwitcher.visibility == View.VISIBLE) {
+                        onPreviousItemClicked()
+                    }
                 }
             })
 
