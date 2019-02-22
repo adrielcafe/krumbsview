@@ -24,8 +24,8 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="2dp"
         android:visibility="gone"
-        app:tint="@color/transparent_white"
-        app:srcCompat="@drawable/ic_keyboard_arrow_right"/>
+        app:tint="?colorControlHighlight"
+        app:srcCompat="@drawable/krumbs_ic_arrow_right"/>
 
     <TextSwitcher
         android:id="@+id/vBreadcrumbCurrentItemSwitcher"

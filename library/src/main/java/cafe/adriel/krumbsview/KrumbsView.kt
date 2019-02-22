@@ -17,7 +17,6 @@ import cafe.adriel.krumbsview.listener.OnSwipeRightListener
 import cafe.adriel.krumbsview.model.Krumb
 import cafe.adriel.krumbsview.model.KrumbsAnimationDuration
 import cafe.adriel.krumbsview.model.KrumbsAnimationType
-import cafe.adriel.krumbsview.util.color
 import cafe.adriel.krumbsview.util.drawable
 import cafe.adriel.krumbsview.util.forEach
 import cafe.adriel.krumbsview.util.tintDrawable
@@ -37,18 +36,12 @@ open class KrumbsView(context: Context, attrs: AttributeSet? = null) : LinearLay
         val styleAttrs = context.theme.obtainStyledAttributes(attrs, R.styleable.KrumbsView, 0, 0)
         val startItem = styleAttrs.getString(R.styleable.KrumbsView_krumbsStartItem)
         val boldText = styleAttrs.getBoolean(R.styleable.KrumbsView_krumbsBoldText, true)
-        val currentItemTextColor = styleAttrs.getColor(R.styleable.KrumbsView_krumbsCurrentItemTextColor, Color.WHITE)
-        val previousItemTextColor = styleAttrs.getColor(
-            R.styleable.KrumbsView_krumbsPreviousItemTextColor, color(
-                R.color.transparent_white
-            ))
-        val separatorTintColor = styleAttrs.getColor(
-            R.styleable.KrumbsView_krumbsSeparatorTintColor, color(
-                R.color.transparent_white
-            ))
+        val currentItemTextColor = styleAttrs.getColor(R.styleable.KrumbsView_krumbsCurrentItemTextColor, Color.TRANSPARENT)
+        val previousItemTextColor = styleAttrs.getColor(R.styleable.KrumbsView_krumbsPreviousItemTextColor, Color.TRANSPARENT)
+        val separatorTintColor = styleAttrs.getColor(R.styleable.KrumbsView_krumbsSeparatorTintColor, Color.TRANSPARENT)
         val separatorIconId = styleAttrs.getResourceId(
             R.styleable.KrumbsView_krumbsSeparatorIcon,
-            R.drawable.ic_keyboard_arrow_right
+            R.drawable.krumbs_ic_arrow_right
         )
         val animationType = when(styleAttrs.getInt(R.styleable.KrumbsView_krumbsAnimationType, 1)){
             1 -> KrumbsAnimationType.SLIDE_LEFT_RIGHT
@@ -87,13 +80,18 @@ open class KrumbsView(context: Context, attrs: AttributeSet? = null) : LinearLay
                 }
             }
 
-            if(!startItem.isNullOrBlank()){
+            if(!startItem.isNullOrBlank())
                 addItem(Krumb(startItem))
+            if(currentItemTextColor != Color.TRANSPARENT)
+                setCurrentItemTextColor(currentItemTextColor)
+            if(previousItemTextColor != Color.TRANSPARENT)
+                setPreviousItemTextColor(previousItemTextColor)
+            if(separatorTintColor != Color.TRANSPARENT) {
+                setSeparatorIcon(separatorIconId, separatorTintColor)
+            } else {
+                setSeparatorIcon(separatorIconId)
             }
             setBoldText(boldText)
-            setCurrentItemTextColor(currentItemTextColor)
-            setPreviousItemTextColor(previousItemTextColor)
-            setSeparatorIcon(separatorIconId, separatorTintColor)
             setAnimationType(animationType)
             setAnimationDuration(animationDuration)
         }
@@ -209,14 +207,14 @@ open class KrumbsView(context: Context, attrs: AttributeSet? = null) : LinearLay
     fun setAnimationType(type: KrumbsAnimationType){
         val (inAnim, outAnim) = when(type) {
             KrumbsAnimationType.SLIDE_LEFT_RIGHT -> listOf(
-                AnimationUtils.loadAnimation(context, R.anim.slide_in_left),
-                AnimationUtils.loadAnimation(context, R.anim.slide_out_right))
+                AnimationUtils.loadAnimation(context, R.anim.krumbs_slide_in_left),
+                AnimationUtils.loadAnimation(context, R.anim.krumbs_slide_out_right))
             KrumbsAnimationType.FADE_IN_OUT -> listOf(
-                AnimationUtils.loadAnimation(context, R.anim.fade_in),
-                AnimationUtils.loadAnimation(context, R.anim.fade_out))
+                AnimationUtils.loadAnimation(context, R.anim.krumbs_fade_in),
+                AnimationUtils.loadAnimation(context, R.anim.krumbs_fade_out))
             KrumbsAnimationType.GROW_SHRINK -> listOf(
-                AnimationUtils.loadAnimation(context, R.anim.grow),
-                AnimationUtils.loadAnimation(context, R.anim.shrink))
+                AnimationUtils.loadAnimation(context, R.anim.krumbs_grow),
+                AnimationUtils.loadAnimation(context, R.anim.krumbs_shrink))
             else -> listOf(null, null)
         }
 
