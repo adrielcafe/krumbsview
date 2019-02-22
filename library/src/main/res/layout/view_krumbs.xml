@@ -8,8 +8,8 @@
     android:orientation="horizontal"
     android:paddingLeft="0dp"
     android:paddingStart="0dp"
-    android:paddingRight="50dp"
-    android:paddingEnd="50dp"
+    android:paddingRight="30dp"
+    android:paddingEnd="30dp"
     android:animateLayoutChanges="true">
 
     <TextSwitcher
