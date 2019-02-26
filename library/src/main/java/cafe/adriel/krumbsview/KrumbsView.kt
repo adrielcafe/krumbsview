@@ -4,6 +4,8 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
+import android.os.Bundle
+import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -25,6 +27,11 @@ import kotlinx.android.synthetic.main.view_krumbs.view.*
 import java.util.*
 
 open class KrumbsView(context: Context, attrs: AttributeSet? = null) : LinearLayoutCompat(context, attrs) {
+
+    companion object {
+        const val STATE_SUPER = "super"
+        const val STATE_ITEMS = "items"
+    }
 
     protected val items = ArrayDeque<Krumb>()
     protected var listener: (() -> Unit)? = null
@@ -97,9 +104,33 @@ open class KrumbsView(context: Context, attrs: AttributeSet? = null) : LinearLay
         }
     }
 
+    override fun onSaveInstanceState(): Parcelable? {
+        return Bundle().apply {
+            putParcelable(STATE_SUPER, super.onSaveInstanceState())
+            putParcelableArray(STATE_ITEMS, items.toTypedArray().reversedArray())
+        }
+    }
+
+    override fun onRestoreInstanceState(state: Parcelable?) {
+        if(state is Bundle){
+            super.onRestoreInstanceState(state.getParcelable(STATE_SUPER))
+            restoreState(state.getParcelableArray(STATE_ITEMS) as Array<Krumb>)
+        } else {
+            super.onRestoreInstanceState(state)
+        }
+    }
+
     protected fun onPreviousItemClicked(){
         removeLastItem()
         listener?.invoke()
+    }
+
+    protected fun restoreState(restoredItems: Array<Krumb>){
+        items.clear()
+        restoredItems.forEach {
+            items.push(it)
+        }
+        updateState()
     }
 
     protected fun updateState(){
@@ -134,6 +165,8 @@ open class KrumbsView(context: Context, attrs: AttributeSet? = null) : LinearLay
     fun setOnPreviousItemClickListener(listener: () -> Unit) {
         this.listener = listener
     }
+
+    fun getItems(): List<Krumb> = items.toList().reversed()
 
     fun getCurrentItem(): Krumb? = items.peek()
 

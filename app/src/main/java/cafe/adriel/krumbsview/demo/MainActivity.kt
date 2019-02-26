@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         vAddItem.setOnClickListener {
-            if(vDefaultBreadcrumbs.size <= dummyItems.size) {
+            if(vDefaultBreadcrumbs.size > 0 && vDefaultBreadcrumbs.size <= dummyItems.size) {
                 val nextItem = dummyItems[vDefaultBreadcrumbs.size - 1]
                 vDefaultBreadcrumbs.addItem(Krumb(nextItem))
                 vCustomBreadcrumbs.addItem(Krumb(nextItem))

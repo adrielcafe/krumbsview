@@ -11,10 +11,10 @@ Inspired by [JotterPad](https://play.google.com/store/apps/details?id=com.jotter
 
 Features:
 
-- [X] Powered by Kotlin
 - [X] Customisable text colors and separator icon
 - [X] Cool animations
 - [X] Swipe right to go back to the previous item
+- [X] Survive Activity recreations
 - [X] Extensible (open classes and protected members, extend it to get the job done!)
 - [ ] Custom typeface (Soon™)
 
@@ -62,6 +62,7 @@ dependencies {
 ```kotlin
 with(krumbsView){
     size
+    getItems()
     getCurrentItem()
     addItem(Krumb("Lorem Ipsum"))
     removeLastItem()
