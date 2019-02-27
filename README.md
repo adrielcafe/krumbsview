@@ -16,7 +16,7 @@ Features:
 - [X] Swipe right to go back to the previous item
 - [X] Survive Activity recreations
 - [X] Extensible (open classes and protected members, extend it to get the job done!)
-- [X] Custom typeface (from assets and res/font folders)
+- [X] Custom typeface (from assets and res/font folders, also works with [Downloadable Fonts](https://developer.android.com/guide/topics/ui/look-and-feel/downloadable-fonts))
 
 ## How to use
 
@@ -76,6 +76,7 @@ with(krumbsView){
     setTypeface("fonts/quicksand.ttf")
     setTypeface(R.font.quicksand)
     setTypeface(MyCustomTypeface)
+    setTextSizeSp(20f)
     setBoldText(true)
     setCurrentItemTextColor(Color.WHITE)
     setPreviousItemTextColor(color(R.color.transparent_white))

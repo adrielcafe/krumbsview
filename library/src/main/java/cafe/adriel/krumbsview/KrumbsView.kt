@@ -46,6 +46,7 @@ open class KrumbsView(context: Context, attrs: AttributeSet? = null) : LinearLay
         val startItem = styleAttrs.getString(R.styleable.KrumbsView_krumbsStartItem)
         val typefaceStr = styleAttrs.getString(R.styleable.KrumbsView_krumbsTypeface)
         val typefaceResId = styleAttrs.getResourceId(R.styleable.KrumbsView_krumbsTypeface, -1)
+        val textSize = styleAttrs.getDimension(R.styleable.KrumbsView_krumbsTextSize, -1f)
         val boldText = styleAttrs.getBoolean(R.styleable.KrumbsView_krumbsBoldText, true)
         val currentItemTextColor = styleAttrs.getColor(R.styleable.KrumbsView_krumbsCurrentItemTextColor, Color.TRANSPARENT)
         val previousItemTextColor = styleAttrs.getColor(R.styleable.KrumbsView_krumbsPreviousItemTextColor, Color.TRANSPARENT)
@@ -98,6 +99,11 @@ open class KrumbsView(context: Context, attrs: AttributeSet? = null) : LinearLay
                 setTypeface(typefaceResId)
             else if(!typefaceStr.isNullOrBlank())
                 setTypeface(typefaceStr)
+            else
+                setBoldText(boldText)
+
+            if(textSize >= 0)
+                setTextSize(textSize)
 
             if(currentItemTextColor != Color.TRANSPARENT)
                 setCurrentItemTextColor(currentItemTextColor)
@@ -111,7 +117,6 @@ open class KrumbsView(context: Context, attrs: AttributeSet? = null) : LinearLay
                 setSeparatorIcon(separatorIconId)
             }
 
-            setBoldText(boldText)
             setAnimationType(animationType)
             setAnimationDuration(animationDuration)
         }
@@ -246,31 +251,44 @@ open class KrumbsView(context: Context, attrs: AttributeSet? = null) : LinearLay
         }
     }
 
+    fun setTextSize(size: Float){
+        vBreadcrumbCurrentItemSwitcher.post {
+            vBreadcrumbCurrentItemSwitcher.forEach {
+                it.textSize = size
+            }
+        }
+        vBreadcrumbPreviousItemSwitcher.post {
+            vBreadcrumbPreviousItemSwitcher.forEach {
+                it.textSize = size
+            }
+        }
+    }
+
     fun setBoldText(bold: Boolean){
         val style = if(bold) Typeface.BOLD else Typeface.NORMAL
-        vBreadcrumbCurrentItemSwitcher.forEach {
-            if(it is AppCompatTextView) {
+        vBreadcrumbCurrentItemSwitcher.post {
+            vBreadcrumbCurrentItemSwitcher.forEach {
                 it.setTypeface(null, style)
             }
         }
-        vBreadcrumbPreviousItemSwitcher.forEach {
-            if(it is AppCompatTextView) {
+        vBreadcrumbPreviousItemSwitcher.post {
+            vBreadcrumbPreviousItemSwitcher.forEach {
                 it.setTypeface(null, style)
             }
         }
     }
 
     fun setCurrentItemTextColor(color: Int){
-        vBreadcrumbCurrentItemSwitcher.forEach {
-            if(it is AppCompatTextView) {
+        vBreadcrumbCurrentItemSwitcher.post {
+            vBreadcrumbCurrentItemSwitcher.forEach {
                 it.setTextColor(color)
             }
         }
     }
 
     fun setPreviousItemTextColor(color: Int){
-        vBreadcrumbPreviousItemSwitcher.forEach {
-            if(it is AppCompatTextView) {
+        vBreadcrumbPreviousItemSwitcher.post {
+            vBreadcrumbPreviousItemSwitcher.forEach {
                 it.setTextColor(color)
             }
         }

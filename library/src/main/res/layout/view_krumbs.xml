@@ -14,8 +14,9 @@
 
     <TextSwitcher
         android:id="@+id/vBreadcrumbPreviousItemSwitcher"
-        android:layout_width="50dp"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:minWidth="50dp"
         android:visibility="gone"/>
 
     <androidx.appcompat.widget.AppCompatImageView
