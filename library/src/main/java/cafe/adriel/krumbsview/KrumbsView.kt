@@ -133,7 +133,12 @@ open class KrumbsView(context: Context, attrs: AttributeSet? = null) : LinearLay
     override fun onRestoreInstanceState(state: Parcelable?) {
         if(state is Bundle){
             super.onRestoreInstanceState(state.getParcelable(STATE_SUPER))
-            restoreState(state.getParcelableArray(STATE_ITEMS) as Array<Krumb>)
+            try {
+                val items = state.getParcelableArray(STATE_ITEMS) as Array<Krumb>
+                restoreState(items)
+            } catch (e: Exception){
+                e.printStackTrace()
+            }
         } else {
             super.onRestoreInstanceState(state)
         }
