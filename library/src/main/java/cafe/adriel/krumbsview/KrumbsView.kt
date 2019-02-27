@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Parcelable
 import android.util.AttributeSet
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.animation.AnimationUtils
@@ -103,7 +104,7 @@ open class KrumbsView(context: Context, attrs: AttributeSet? = null) : LinearLay
                 setBoldText(boldText)
 
             if(textSize >= 0)
-                setTextSize(textSize)
+                setTextSizePx(textSize)
 
             if(currentItemTextColor != Color.TRANSPARENT)
                 setCurrentItemTextColor(currentItemTextColor)
@@ -251,7 +252,20 @@ open class KrumbsView(context: Context, attrs: AttributeSet? = null) : LinearLay
         }
     }
 
-    fun setTextSize(size: Float){
+    fun setTextSizePx(size: Float){
+        vBreadcrumbCurrentItemSwitcher.post {
+            vBreadcrumbCurrentItemSwitcher.forEach {
+                it.setTextSize(TypedValue.COMPLEX_UNIT_PX, size)
+            }
+        }
+        vBreadcrumbPreviousItemSwitcher.post {
+            vBreadcrumbPreviousItemSwitcher.forEach {
+                it.setTextSize(TypedValue.COMPLEX_UNIT_PX, size)
+            }
+        }
+    }
+
+    fun setTextSizeSp(size: Float){
         vBreadcrumbCurrentItemSwitcher.post {
             vBreadcrumbCurrentItemSwitcher.forEach {
                 it.textSize = size
