@@ -3,6 +3,7 @@
 
     <declare-styleable name="KrumbsView">
         <attr name="krumbsStartItem" format="string"/>
+        <attr name="krumbsTypeface" format="string|reference"/>
         <attr name="krumbsBoldText" format="boolean"/>
         <attr name="krumbsCurrentItemTextColor" format="color"/>
         <attr name="krumbsPreviousItemTextColor" format="color"/>

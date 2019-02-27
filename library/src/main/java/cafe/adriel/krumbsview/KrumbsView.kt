@@ -11,10 +11,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.annotation.DrawableRes
+import androidx.annotation.FontRes
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import cafe.adriel.krumbsview.listener.OnSwipeRightListener
 import cafe.adriel.krumbsview.model.Krumb
 import cafe.adriel.krumbsview.model.KrumbsAnimationDuration
@@ -42,6 +44,8 @@ open class KrumbsView(context: Context, attrs: AttributeSet? = null) : LinearLay
     init {
         val styleAttrs = context.theme.obtainStyledAttributes(attrs, R.styleable.KrumbsView, 0, 0)
         val startItem = styleAttrs.getString(R.styleable.KrumbsView_krumbsStartItem)
+        val typefaceStr = styleAttrs.getString(R.styleable.KrumbsView_krumbsTypeface)
+        val typefaceResId = styleAttrs.getResourceId(R.styleable.KrumbsView_krumbsTypeface, -1)
         val boldText = styleAttrs.getBoolean(R.styleable.KrumbsView_krumbsBoldText, true)
         val currentItemTextColor = styleAttrs.getColor(R.styleable.KrumbsView_krumbsCurrentItemTextColor, Color.TRANSPARENT)
         val previousItemTextColor = styleAttrs.getColor(R.styleable.KrumbsView_krumbsPreviousItemTextColor, Color.TRANSPARENT)
@@ -89,15 +93,24 @@ open class KrumbsView(context: Context, attrs: AttributeSet? = null) : LinearLay
 
             if(!startItem.isNullOrBlank())
                 addItem(Krumb(startItem))
+
+            if(typefaceResId >= 0)
+                setTypeface(typefaceResId)
+            else if(!typefaceStr.isNullOrBlank())
+                setTypeface(typefaceStr)
+
             if(currentItemTextColor != Color.TRANSPARENT)
                 setCurrentItemTextColor(currentItemTextColor)
+
             if(previousItemTextColor != Color.TRANSPARENT)
                 setPreviousItemTextColor(previousItemTextColor)
+
             if(separatorTintColor != Color.TRANSPARENT) {
                 setSeparatorIcon(separatorIconId, separatorTintColor)
             } else {
                 setSeparatorIcon(separatorIconId)
             }
+
             setBoldText(boldText)
             setAnimationType(animationType)
             setAnimationDuration(animationDuration)
@@ -189,6 +202,47 @@ open class KrumbsView(context: Context, attrs: AttributeSet? = null) : LinearLay
         if(items.size > 1) {
             while (items.size != 1) items.pop()
             updateState()
+        }
+    }
+
+    fun setTypeface(typefaceStr: String){
+        // Try to get the typeface from assets folder
+        var typeface = try {
+            Typeface.createFromAsset(context.assets, typefaceStr)
+        } catch (e: Exception){
+            e.printStackTrace()
+            null
+        }
+        if(typeface == null) {
+            // Try to get the typeface from res/font folder
+            try {
+                val typefaceResId = resources.getIdentifier(typefaceStr, "font", context.packageName)
+                typeface = ResourcesCompat.getFont(context, typefaceResId)
+            } catch (e: Exception){
+                e.printStackTrace()
+            }
+        }
+        typeface?.let {
+            setTypeface(it)
+        }
+    }
+
+    fun setTypeface(@FontRes typefaceResId: Int){
+        ResourcesCompat.getFont(context, typefaceResId)?.let {
+            setTypeface(it)
+        }
+    }
+
+    fun setTypeface(typeface: Typeface){
+        vBreadcrumbCurrentItemSwitcher.post {
+            vBreadcrumbCurrentItemSwitcher.forEach {
+                it.typeface = typeface
+            }
+        }
+        vBreadcrumbPreviousItemSwitcher.post {
+            vBreadcrumbPreviousItemSwitcher.forEach {
+                it.typeface = typeface
+            }
         }
     }
 

@@ -33,6 +33,7 @@
         android:paddingBottom="50dp"
         android:background="@color/colorPrimary"
         app:krumbsStartItem="Home"
+        app:krumbsTypeface="@font/quicksand"
         app:krumbsBoldText="false"
         app:krumbsCurrentItemTextColor="@color/colorAccent"
         app:krumbsPreviousItemTextColor="@color/colorPrimaryDark"
@@ -47,7 +48,7 @@
         android:layout_alignTop="@id/vCustomBreadcrumbs"
         android:padding="5dp"
         android:text="Custom"
-        android:textColor="@android:color/white"/>
+        android:textColor="@android:color/white" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/vActionsLayout"

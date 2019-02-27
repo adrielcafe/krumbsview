@@ -1,15 +1,18 @@
 package cafe.adriel.krumbsview.util
 
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextSwitcher
+import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 
-fun ViewGroup.forEach(action: (View) -> Unit) {
+fun TextSwitcher.forEach(action: (TextView) -> Unit) {
     (0 until childCount).forEach {
-        action(getChildAt(it))
+        val childView = getChildAt(it)
+        if(childView is TextView)
+            action(childView)
     }
 }
 

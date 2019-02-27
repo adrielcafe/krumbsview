@@ -16,7 +16,7 @@ Features:
 - [X] Swipe right to go back to the previous item
 - [X] Survive Activity recreations
 - [X] Extensible (open classes and protected members, extend it to get the job done!)
-- [ ] Custom typeface (Soon™)
+- [X] Custom typeface (from assets and res/font folders)
 
 ## How to use
 
@@ -49,6 +49,7 @@ dependencies {
     android:layout_height="wrap_content"
     android:background="@color/colorPrimary"
     app:krumbsStartItem="[string]"
+    app:krumbsTypeface="[string|font]"
     app:krumbsBoldText="[true|false]"
     app:krumbsCurrentItemTextColor="[color]"
     app:krumbsPreviousItemTextColor="[color]"
@@ -68,9 +69,13 @@ with(krumbsView){
     removeLastItem()
     removeAllItems()
     goToFirstItem()
+    // Swipe right also triggers this listener
     setOnPreviousItemClickListener { /* ... */ }
     
     // All XML options are available
+    setTypeface("fonts/quicksand.ttf")
+    setTypeface(R.font.quicksand)
+    setTypeface(MyCustomTypeface)
     setBoldText(true)
     setCurrentItemTextColor(Color.WHITE)
     setPreviousItemTextColor(color(R.color.transparent_white))
