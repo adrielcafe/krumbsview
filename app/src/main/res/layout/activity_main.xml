@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:paddingTop="50dp"
         android:paddingBottom="50dp"
-        android:background="@color/colorAccent"
+        android:background="@color/silver"
         app:krumbsStartItem="Home"/>
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -21,8 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/vDefaultBreadcrumbs"
         android:padding="5dp"
-        android:text="Default"
-        android:textColor="@android:color/white"/>
+        android:text="Default"/>
 
     <cafe.adriel.krumbsview.KrumbsView
         android:id="@+id/vCustomBreadcrumbs"
@@ -54,9 +53,8 @@
         android:id="@+id/vActionsLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginBottom="50dp"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@id/vCustomBreadcrumbs"
+        android:layout_marginTop="20dp"
         android:gravity="center"
         android:orientation="horizontal"
         tools:context=".MainActivity">
@@ -72,8 +70,6 @@
             android:id="@+id/vRemoveLastItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
             android:textAllCaps="false"
             android:text="removeLastItem()"/>
 
