@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:paddingTop="50dp"
         android:paddingBottom="50dp"
-        android:background="@color/silver"
+        android:background="@color/gray"
         app:krumbsStartItem="Home"/>
 
     <androidx.appcompat.widget.AppCompatTextView

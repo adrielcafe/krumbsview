@@ -126,18 +126,15 @@ open class KrumbsView(context: Context, attrs: AttributeSet? = null) : LinearLay
     override fun onSaveInstanceState(): Parcelable? {
         return Bundle().apply {
             putParcelable(STATE_SUPER, super.onSaveInstanceState())
-            putParcelableArray(STATE_ITEMS, items.toTypedArray().reversedArray())
+            putParcelableArrayList(STATE_ITEMS, arrayListOf(*items.toTypedArray().reversedArray()))
         }
     }
 
     override fun onRestoreInstanceState(state: Parcelable?) {
         if(state is Bundle){
             super.onRestoreInstanceState(state.getParcelable(STATE_SUPER))
-            try {
-                val items = state.getParcelableArray(STATE_ITEMS) as Array<Krumb>
-                restoreState(items)
-            } catch (e: Exception){
-                e.printStackTrace()
+            state.getParcelableArrayList<Krumb>(STATE_ITEMS)?.let {
+                restoreState(it)
             }
         } else {
             super.onRestoreInstanceState(state)
@@ -149,7 +146,7 @@ open class KrumbsView(context: Context, attrs: AttributeSet? = null) : LinearLay
         listener?.invoke()
     }
 
-    protected fun restoreState(restoredItems: Array<Krumb>){
+    protected fun restoreState(restoredItems: ArrayList<Krumb>){
         items.clear()
         restoredItems.forEach {
             items.push(it)
