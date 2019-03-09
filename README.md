@@ -1,6 +1,7 @@
 [![JitPack](https://jitpack.io/v/adrielcafe/KrumbsView.svg)](https://jitpack.io/#adrielcafe/KrumbsView) 
 [![API](https://img.shields.io/badge/API-14%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=14)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) 
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-KrumbsView-green.svg?style=flat)]( https://android-arsenal.com/details/1/7562)
 
 # KrumbsView
 The ultimate breadcrumbs view for Android!
