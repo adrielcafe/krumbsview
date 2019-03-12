@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Parcelable
 import android.util.AttributeSet
+import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +19,7 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.provider.FontsContractCompat
 import cafe.adriel.krumbsview.listener.OnSwipeRightListener
 import cafe.adriel.krumbsview.model.Krumb
 import cafe.adriel.krumbsview.model.KrumbsAnimationDuration
@@ -32,6 +34,8 @@ import java.util.*
 open class KrumbsView(context: Context, attrs: AttributeSet? = null) : LinearLayoutCompat(context, attrs) {
 
     companion object {
+        protected val TAG = KrumbsView::class.java.simpleName
+
         const val STATE_SUPER = "super"
         const val STATE_ITEMS = "items"
     }
@@ -215,7 +219,7 @@ open class KrumbsView(context: Context, attrs: AttributeSet? = null) : LinearLay
 
     fun setTypeface(typefaceStr: String){
         // Try to get the typeface from assets folder
-        var typeface = try {
+        val typeface = try {
             Typeface.createFromAsset(context.assets, typefaceStr)
         } catch (e: Exception){
             e.printStackTrace()
@@ -225,20 +229,34 @@ open class KrumbsView(context: Context, attrs: AttributeSet? = null) : LinearLay
             // Try to get the typeface from res/font folder
             try {
                 val typefaceResId = resources.getIdentifier(typefaceStr, "font", context.packageName)
-                typeface = ResourcesCompat.getFont(context, typefaceResId)
+                setTypeface(typefaceResId)
             } catch (e: Exception){
                 e.printStackTrace()
             }
-        }
-        typeface?.let {
-            setTypeface(it)
+        } else {
+            setTypeface(typeface)
         }
     }
 
     fun setTypeface(@FontRes typefaceResId: Int){
-        ResourcesCompat.getFont(context, typefaceResId)?.let {
-            setTypeface(it)
-        }
+        ResourcesCompat.getFont(context, typefaceResId, object : ResourcesCompat.FontCallback() {
+            override fun onFontRetrieved(typeface: Typeface) {
+                setTypeface(typeface)
+            }
+            override fun onFontRetrievalFailed(reason: Int) {
+                val cause = when(reason){
+                    FontsContractCompat.FontRequestCallback.FAIL_REASON_PROVIDER_NOT_FOUND -> "provider not found"
+                    FontsContractCompat.FontRequestCallback.FAIL_REASON_FONT_LOAD_ERROR -> "font load error"
+                    FontsContractCompat.FontRequestCallback.FAIL_REASON_FONT_NOT_FOUND -> "font not found"
+                    FontsContractCompat.FontRequestCallback.FAIL_REASON_FONT_UNAVAILABLE -> "font unavailable"
+                    FontsContractCompat.FontRequestCallback.FAIL_REASON_MALFORMED_QUERY -> "malformed query"
+                    FontsContractCompat.FontRequestCallback.FAIL_REASON_SECURITY_VIOLATION -> "security violation"
+                    FontsContractCompat.FontRequestCallback.FAIL_REASON_WRONG_CERTIFICATES -> "wrong certificates"
+                    else -> "unknown error"
+                }
+                Log.e(TAG, "Font retrieval failed: $cause")
+            }
+        }, null)
     }
 
     fun setTypeface(typeface: Typeface){
