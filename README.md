@@ -39,7 +39,7 @@ Next, add the dependency to your app modules:
 ```gradle
 dependencies {
     ...
-    compile 'com.github.adrielcafe:krumbsview:$latestVersion'
+    implementation 'com.github.adrielcafe:krumbsview:$latestVersion'
 }
 ```
 
