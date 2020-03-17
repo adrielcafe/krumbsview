@@ -33,8 +33,8 @@ import java.util.*
 
 open class KrumbsView(context: Context, attrs: AttributeSet? = null) : LinearLayoutCompat(context, attrs) {
 
-    companion object {
-        protected val TAG = KrumbsView::class.java.simpleName
+    protected companion object {
+        val TAG = KrumbsView::class.simpleName
 
         const val STATE_SUPER = "super"
         const val STATE_ITEMS = "items"
@@ -75,21 +75,16 @@ open class KrumbsView(context: Context, attrs: AttributeSet? = null) : LinearLay
         val layoutInflater = ContextCompat.getSystemService(context, LayoutInflater::class.java)
         val view = layoutInflater?.inflate(R.layout.view_krumbs, this, true)
         view?.apply {
-            setOnTouchListener(object : OnSwipeRightListener(context){
+            setOnTouchListener(object : OnSwipeRightListener(context) {
                 override fun onSwipeRight() {
-                    if(vBreadcrumbPreviousItemSwitcher.visibility == View.VISIBLE) {
+                    if (vBreadcrumbPreviousItemSwitcher.visibility == View.VISIBLE) {
                         onPreviousItemClicked()
                     }
                 }
             })
 
             vBreadcrumbCurrentItemSwitcher.setFactory {
-                NonFocusableTextView(
-                    ContextThemeWrapper(
-                        context,
-                        R.style.KrumbsStyle_CurrentItem
-                    )
-                )
+                NonFocusableTextView(ContextThemeWrapper(context, R.style.KrumbsStyle_CurrentItem))
             }
             vBreadcrumbPreviousItemSwitcher.setFactory {
                 AppCompatTextView(ContextThemeWrapper(context, R.style.KrumbsStyle_PreviousItem)).apply {
@@ -97,26 +92,26 @@ open class KrumbsView(context: Context, attrs: AttributeSet? = null) : LinearLay
                 }
             }
 
-            if(!startItem.isNullOrBlank())
+            if (!startItem.isNullOrBlank())
                 addItem(Krumb(startItem))
 
-            if(typefaceResId >= 0)
+            if (typefaceResId >= 0)
                 setTypeface(typefaceResId)
-            else if(!typefaceStr.isNullOrBlank())
+            else if (!typefaceStr.isNullOrBlank())
                 setTypeface(typefaceStr)
             else
                 setBoldText(boldText)
 
-            if(textSize >= 0)
+            if (textSize >= 0)
                 setTextSizePx(textSize)
 
-            if(currentItemTextColor != Color.TRANSPARENT)
+            if (currentItemTextColor != Color.TRANSPARENT)
                 setCurrentItemTextColor(currentItemTextColor)
 
-            if(previousItemTextColor != Color.TRANSPARENT)
+            if (previousItemTextColor != Color.TRANSPARENT)
                 setPreviousItemTextColor(previousItemTextColor)
 
-            if(separatorTintColor != Color.TRANSPARENT) {
+            if (separatorTintColor != Color.TRANSPARENT) {
                 setSeparatorIcon(separatorIconId, separatorTintColor)
             } else {
                 setSeparatorIcon(separatorIconId)
@@ -127,19 +122,16 @@ open class KrumbsView(context: Context, attrs: AttributeSet? = null) : LinearLay
         }
     }
 
-    override fun onSaveInstanceState(): Parcelable? {
-        return Bundle().apply {
+    override fun onSaveInstanceState(): Parcelable? =
+        Bundle().apply {
             putParcelable(STATE_SUPER, super.onSaveInstanceState())
             putParcelableArrayList(STATE_ITEMS, arrayListOf(*items.toTypedArray().reversedArray()))
         }
-    }
 
     override fun onRestoreInstanceState(state: Parcelable?) {
         if(state is Bundle){
             super.onRestoreInstanceState(state.getParcelable(STATE_SUPER))
-            state.getParcelableArrayList<Krumb>(STATE_ITEMS)?.let {
-                restoreState(it)
-            }
+            state.getParcelableArrayList<Krumb>(STATE_ITEMS)?.let(::restoreState)
         } else {
             super.onRestoreInstanceState(state)
         }
@@ -379,5 +371,4 @@ open class KrumbsView(context: Context, attrs: AttributeSet? = null) : LinearLay
             outAnimation?.duration = duration.duration
         }
     }
-
 }

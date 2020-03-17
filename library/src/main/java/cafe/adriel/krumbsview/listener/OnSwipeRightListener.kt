@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
+import kotlin.math.abs
 
 abstract class OnSwipeRightListener(private val context: Context) : View.OnTouchListener {
 
@@ -22,18 +23,19 @@ abstract class OnSwipeRightListener(private val context: Context) : View.OnTouch
 
         override fun onDown(e: MotionEvent?) = true
 
-        override fun onFling(e1: MotionEvent, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
-            val distanceX = e2.x - e1.x
-            val distanceY = e2.y - e1.y
-            if (Math.abs(distanceX) > Math.abs(distanceY)
-                    && Math.abs(distanceX) > SWIPE_DISTANCE_THRESHOLD
-                    && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD
-                    && distanceX > 0) {
+        override fun onFling(e1: MotionEvent?, e2: MotionEvent?, velocityX: Float, velocityY: Float): Boolean {
+            val distanceX = (e2?.x ?: 0F) - (e1?.x ?: 0F)
+            val distanceY = (e2?.y ?: 0F) - (e1?.y ?: 0F)
+            
+            if (abs(distanceX) > abs(distanceY)
+                && abs(distanceX) > SWIPE_DISTANCE_THRESHOLD
+                && abs(velocityX) > SWIPE_VELOCITY_THRESHOLD
+                && distanceX > 0) {
                 onSwipeRight()
                 return true
             }
+            
             return false
         }
-
     }
 }

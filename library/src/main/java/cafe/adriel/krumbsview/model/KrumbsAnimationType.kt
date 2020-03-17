@@ -6,5 +6,4 @@ enum class KrumbsAnimationType {
     SLIDE_LEFT_RIGHT,
     FADE_IN_OUT,
     GROW_SHRINK
-
 }
