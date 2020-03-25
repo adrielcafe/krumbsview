@@ -5,3 +5,4 @@
 .externalNativeBuild
 .DS_Store
 .gradle
+*.iml
