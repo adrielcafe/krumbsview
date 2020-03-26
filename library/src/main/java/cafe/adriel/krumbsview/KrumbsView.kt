@@ -43,7 +43,7 @@ open class KrumbsView(context: Context, attrs: AttributeSet? = null) : LinearLay
     protected val items = ArrayDeque<Krumb>()
 
     protected var _paddingStartItem: Int = 0
-    protected var paddingStartItem: Int
+    var paddingStartItem: Int
         get () {
             return _paddingStartItem
         }
