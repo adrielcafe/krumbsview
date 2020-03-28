@@ -11,10 +11,11 @@
         android:id="@+id/vDefaultBreadcrumbs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/gray"
         android:paddingTop="50dp"
         android:paddingBottom="50dp"
-        android:background="@color/gray"
-        app:krumbsStartItem="Home"/>
+        app:krumbsPaddingStartItem="16dp"
+        app:krumbsStartItem="Home" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="wrap_content"
@@ -39,6 +40,8 @@
         app:krumbsSeparatorTintColor="@color/colorPrimaryDark"
         app:krumbsSeparatorIcon="@drawable/ic_play_arrow"
         app:krumbsAnimationType="growShrink"
+        app:krumbsPreviousItemCharacters="2"
+        app:krumbsPaddingStartItem="8dp"
         app:krumbsAnimationDuration="longDuration"/>
 
     <androidx.appcompat.widget.AppCompatTextView

@@ -52,6 +52,8 @@ dependencies {
 <cafe.adriel.krumbsview.KrumbsView
     ...
     app:krumbsStartItem="[string]"
+    app:krumbsPaddingStartItem="[dimension]"
+    app:krumbsPreviousItemCharacters="[integer]"
     app:krumbsTypeface="[string|font]"
     app:krumbsTextSize="[dimension]"
     app:krumbsBoldText="[true|false]"
@@ -100,6 +102,8 @@ with(krumbsView){
     setTextSizeSp(20f)
     setTextSizePx(40f)
     setBoldText(true)
+    setPaddingStartItem(10f)
+    setPreviousItemCharacters(2)
     setCurrentItemTextColor(Color.WHITE)
     setPreviousItemTextColor(color(R.color.transparent_white))
     setSeparatorTintColor(color(R.color.transparent_white))
@@ -110,6 +114,7 @@ with(krumbsView){
 ```
 
 You can also use your custom Krumb implementation:
+
 ```kotlin
 data class MyKrumb(val id: Int, 
                    val folderName: String, 

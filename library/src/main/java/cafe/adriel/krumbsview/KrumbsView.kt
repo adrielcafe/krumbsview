@@ -41,6 +41,27 @@ open class KrumbsView(context: Context, attrs: AttributeSet? = null) : LinearLay
     }
 
     protected val items = ArrayDeque<Krumb>()
+
+    protected var _paddingStartItem: Int = 0
+    var paddingStartItem: Int
+        get () {
+            return _paddingStartItem
+        }
+        set (padding) {
+            _paddingStartItem = padding
+            updateState()
+        }
+
+    protected var _previousItemCharacters: Int = 3
+    var previousItemCharacters: Int
+        get () {
+            return _previousItemCharacters
+        }
+        set (previousItemCharacters) {
+            _previousItemCharacters = previousItemCharacters
+            updateState()
+        }
+
     protected var listener: (() -> Unit)? = null
 
     val size: Int
@@ -49,6 +70,8 @@ open class KrumbsView(context: Context, attrs: AttributeSet? = null) : LinearLay
     init {
         val styleAttrs = context.theme.obtainStyledAttributes(attrs, R.styleable.KrumbsView, 0, 0)
         val startItem = styleAttrs.getString(R.styleable.KrumbsView_krumbsStartItem)
+        _paddingStartItem = styleAttrs.getDimensionPixelSize(R.styleable.KrumbsView_krumbsPaddingStartItem, 0)
+        _previousItemCharacters = styleAttrs.getInt(R.styleable.KrumbsView_krumbsPreviousItemCharacters, 3)
         val typefaceStr = styleAttrs.getString(R.styleable.KrumbsView_krumbsTypeface)
         val typefaceResId = styleAttrs.getResourceId(R.styleable.KrumbsView_krumbsTypeface, -1)
         val textSize = styleAttrs.getDimension(R.styleable.KrumbsView_krumbsTextSize, -1f)
@@ -153,7 +176,9 @@ open class KrumbsView(context: Context, attrs: AttributeSet? = null) : LinearLay
     protected fun updateState(){
         if(items.isEmpty()) {
             vBreadcrumbCurrentItemSwitcher.setCurrentText("")
-
+            with (vBreadcrumbCurrentItemSwitcher) {
+                setPadding(_paddingStartItem, paddingTop, paddingRight, paddingBottom)
+            }
             vBreadcrumbPreviousItemSwitcher.setCurrentText("")
             vBreadcrumbPreviousItemSwitcher.visibility = View.GONE
 
@@ -162,14 +187,19 @@ open class KrumbsView(context: Context, attrs: AttributeSet? = null) : LinearLay
             val currentItem = items.peek()
             if (items.size > 1) {
                 vBreadcrumbCurrentItemSwitcher.setText(currentItem?.title)
-
+                with (vBreadcrumbCurrentItemSwitcher) {
+                    setPadding(0, paddingTop, paddingRight, paddingBottom)
+                }
                 val previousItem = items.elementAt(1)
-                vBreadcrumbPreviousItemSwitcher.setText(previousItem.title.takeLast(3))
+                vBreadcrumbPreviousItemSwitcher.setText(previousItem.title.takeLast(_previousItemCharacters))
                 vBreadcrumbPreviousItemSwitcher.visibility = View.VISIBLE
 
                 vBreadcrumbSeparator.visibility = View.VISIBLE
             } else {
                 vBreadcrumbCurrentItemSwitcher.setCurrentText(currentItem?.title)
+                with (vBreadcrumbCurrentItemSwitcher) {
+                    setPadding(_paddingStartItem, paddingTop, paddingRight, paddingBottom)
+                }
 
                 vBreadcrumbPreviousItemSwitcher.setCurrentText("")
                 vBreadcrumbPreviousItemSwitcher.visibility = View.GONE
